@@ -1,60 +1,40 @@
-import "./styles.css";
-import { useState } from "react";
+import './styles.css';
+import React from 'react';
 
-const Statistics = (props) => {
-  if (props.text == "positive") {
-    if (isNaN(props.val))
-      return (
-        <div>
-          {" "}
-          {props.text} {props.val}{" "}
-        </div>
-      );
-    return (
-      <div>
-        {" "}
-        {props.text} {props.val}%{" "}
-      </div>
-    );
+const Header = ({ course }) => <h1>{course}</h1>
+
+const Part = ({ part, exercises }) => <p> {part} {exercises} </p>
+
+const Content = ({ parts }) => <div> {parts.map(course => <Part key={course.name} part={course.name} exercises={course.exercises} />)} </div>
+
+const Total = ({ parts }) => <p> Number of exercises {parts.reduce((accumulator, currValue) => accumulator + currValue.exercises, 0)} </p>
+
+const App = () => {
+  const course = {
+    name: 'Half Stack application development',
+    parts: [
+      {
+        name: 'Fundamentals of React',
+        exercises: 10
+      },
+      {
+        name: 'Using props to pass data',
+        exercises: 7
+      },
+      {
+        name: 'State of a component',
+        exercises: 14
+      }
+    ]
   }
 
   return (
     <div>
-      {" "}
-      {props.text} {props.val}{" "}
+      <Header course={course.name} />
+      <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
-  );
-};
+  )
+}
 
-const App = () => {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
-
-  return (
-    <div>
-      <h1> give feedback </h1>
-      <p>
-        <button onClick={() => setGood(good + 1)}> good </button>
-        <button onClick={() => setNeutral(neutral + 1)}> neutral </button>
-        <button onClick={() => setBad(bad + 1)}> bad </button>
-      </p>
-      <p>
-        <h1> statistics </h1>
-        <Statistics text="good" val={good} />
-        <Statistics text="neutral" val={neutral} />
-        <Statistics text="bad" val={bad} />
-        <Statistics text="all" val={good + neutral + bad} />
-        <Statistics
-          text="average"
-          val={((good + neutral + bad) / 3).toFixed(2)}
-        />
-        <Statistics
-          text="positive"
-          val={((good / (good + neutral + bad)) * 100).toFixed(2)}
-        />
-      </p>
-    </div>
-  );
-};
 export default App;
