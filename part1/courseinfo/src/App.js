@@ -7,7 +7,7 @@ const Part = ({ part, exercises }) => <p> {part} {exercises} </p>
 
 const Content = ({ parts }) => <div> {parts.map(course => <Part key={course.name} part={course.name} exercises={course.exercises} />)} </div>
 
-const Total = ({ parts }) => <p> Number of exercises {parts.reduce((accumulator, currValue) => accumulator + currValue.exercises, 0)} </p>
+const Total = ({ parts }) => <p> Number of exercises {parts.reduce((sum, part) => sum + part.exercises, 0)} </p>
 
 const App = () => {
   const course = {
